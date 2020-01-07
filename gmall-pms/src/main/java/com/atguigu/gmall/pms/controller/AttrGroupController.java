@@ -8,7 +8,7 @@ import java.util.Map;
 import com.atguigu.core.bean.PageVo;
 import com.atguigu.core.bean.QueryCondition;
 import com.atguigu.core.bean.Resp;
-import com.atguigu.gmall.pms.Vo.GroupVo;
+import com.atguigu.gmall.pms.vo.GroupVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +24,9 @@ import com.atguigu.gmall.pms.service.AttrGroupService;
 /**
  * 属性分组
  *
- * @author xpf
+ * @author lixianfeng
  * @email lxf@atguigu.com
- * @date 2019-12-31 13:40:39
+ * @date 2019-12-31 09:59:59
  */
 @Api(tags = "属性分组 管理")
 @RestController
@@ -35,27 +35,24 @@ public class AttrGroupController {
     @Autowired
     private AttrGroupService attrGroupService;
 
-    @GetMapping("/withattrs/cat/{catId}")
-    public Resp<List<GroupVo>> queryByCid(@PathVariable("catId")Long catId){
+    @GetMapping("withattrs/cat/{catId}")
+    public Resp<List<GroupVO>> queryGroupVOsByCid(@PathVariable("catId")Long cid){
 
-        List<GroupVo> attrGroupVOs = this.attrGroupService.queryByCid(catId);
-        return Resp.ok(attrGroupVOs);
+        List<GroupVO> groupVOS = this.attrGroupService.queryGroupVOsByCid(cid);
+        return Resp.ok(groupVOS);
     }
-    /**
-     * 根据groupId查询关联关系
-     */
-    @GetMapping("/withattr/{gid}")
-    public Resp<GroupVo> queryByGroupId(@PathVariable(value = "gid")Long gid){
-        GroupVo groupVo=this.attrGroupService.queryByGroupId(gid);
-        return Resp.ok(groupVo);
+
+    @GetMapping("withattr/{gid}")
+    public Resp<GroupVO> queryGroupVOByGid(@PathVariable("gid")Long gid){
+        GroupVO groupVO = attrGroupService.queryGroupVOByGid(gid);
+        return Resp.ok(groupVO);
     }
-    /**
-     * 属性维护之属性分组
-     */
+
     @GetMapping("{catId}")
-    public Resp<PageVo> queryGroupByCid(QueryCondition queryCondition,@PathVariable("catId")Long catId){
-        PageVo pageVo = this.attrGroupService.queryGroupByCid(queryCondition,catId);
-        return Resp.ok(pageVo);
+    public Resp<PageVo> queryGroupsByCidPage(QueryCondition queryCondition, @PathVariable("catId")Long catId) {
+        PageVo page = attrGroupService.queryGroupsByCidPage(queryCondition, catId);
+
+        return Resp.ok(page);
     }
 
     /**

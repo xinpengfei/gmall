@@ -7,11 +7,10 @@ import java.util.Map;
 import com.atguigu.core.bean.PageVo;
 import com.atguigu.core.bean.QueryCondition;
 import com.atguigu.core.bean.Resp;
-import com.atguigu.gmall.pms.Vo.AttrVo;
+import com.atguigu.gmall.pms.vo.AttrVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,12 +18,14 @@ import com.atguigu.gmall.pms.entity.AttrEntity;
 import com.atguigu.gmall.pms.service.AttrService;
 
 
+
+
 /**
  * 商品属性
  *
- * @author xpf
+ * @author lixianfeng
  * @email lxf@atguigu.com
- * @date 2019-12-31 13:40:39
+ * @date 2019-12-31 09:59:59
  */
 @Api(tags = "商品属性 管理")
 @RestController
@@ -33,16 +34,10 @@ public class AttrController {
     @Autowired
     private AttrService attrService;
 
-    /**
-     * 属性维护
-     *
-     * @return
-     */
     @GetMapping
-    public Resp<PageVo> queryAttrByCidOrType(
-            @RequestParam(value = "cid") Integer cid,
-            @RequestParam(value = "type",required = false) Long type,QueryCondition queryCondition) {
-        PageVo pageVo = this.attrService.queryAttrByCidOrType(cid, type,queryCondition);
+    public Resp<PageVo> queryAttrByCidOrTypePage(QueryCondition condition, @RequestParam("cid")Long cid,
+                                                 @RequestParam(value = "type", required = false)Integer type){
+        PageVo pageVo = this.attrService.queryAttrByCidOrTypePage(condition, cid, type);
         return Resp.ok(pageVo);
     }
 
@@ -65,8 +60,8 @@ public class AttrController {
     @ApiOperation("详情查询")
     @GetMapping("/info/{attrId}")
     @PreAuthorize("hasAuthority('pms:attr:info')")
-    public Resp<AttrEntity> info(@PathVariable("attrId") Long attrId) {
-        AttrEntity attr = attrService.getById(attrId);
+    public Resp<AttrEntity> info(@PathVariable("attrId") Long attrId){
+		AttrEntity attr = attrService.getById(attrId);
 
         return Resp.ok(attr);
     }
@@ -77,8 +72,8 @@ public class AttrController {
     @ApiOperation("保存")
     @PostMapping("/save")
     @PreAuthorize("hasAuthority('pms:attr:save')")
-    public Resp<Object> save(@RequestBody AttrVo attrVo) {
-        attrService.saveAttrVo(attrVo);
+    public Resp<Object> save(@RequestBody AttrVO attrVO){
+		attrService.saveAttrVO(attrVO);
 
         return Resp.ok(null);
     }
@@ -89,8 +84,8 @@ public class AttrController {
     @ApiOperation("修改")
     @PostMapping("/update")
     @PreAuthorize("hasAuthority('pms:attr:update')")
-    public Resp<Object> update(@RequestBody AttrEntity attr) {
-        attrService.updateById(attr);
+    public Resp<Object> update(@RequestBody AttrEntity attr){
+		attrService.updateById(attr);
 
         return Resp.ok(null);
     }
@@ -101,8 +96,8 @@ public class AttrController {
     @ApiOperation("删除")
     @PostMapping("/delete")
     @PreAuthorize("hasAuthority('pms:attr:delete')")
-    public Resp<Object> delete(@RequestBody Long[] attrIds) {
-        attrService.removeByIds(Arrays.asList(attrIds));
+    public Resp<Object> delete(@RequestBody Long[] attrIds){
+		attrService.removeByIds(Arrays.asList(attrIds));
 
         return Resp.ok(null);
     }

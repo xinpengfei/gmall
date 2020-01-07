@@ -11,14 +11,14 @@ import java.util.List;
 /**
  * 商品三级分类
  *
- * @author xpf
+ * @author lixianfeng
  * @email lxf@atguigu.com
- * @date 2019-12-31 13:40:39
+ * @date 2019-12-31 09:59:59
  */
 public interface CategoryService extends IService<CategoryEntity> {
 
     PageVo queryPage(QueryCondition params);
 
-    List<CategoryEntity> queryCategoriesBylevelOrPid(Integer level, Long pid);
+    List<CategoryEntity> queryCategoriesByLevelOrPid(Integer level, Long pid);
 }
 

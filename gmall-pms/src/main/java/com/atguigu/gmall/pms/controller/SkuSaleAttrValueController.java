@@ -22,9 +22,9 @@ import com.atguigu.gmall.pms.service.SkuSaleAttrValueService;
 /**
  * sku销售属性&值
  *
- * @author xpf
+ * @author lixianfeng
  * @email lxf@atguigu.com
- * @date 2019-12-31 13:40:39
+ * @date 2019-12-31 09:59:59
  */
 @Api(tags = "sku销售属性&值 管理")
 @RestController

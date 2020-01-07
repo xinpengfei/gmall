@@ -1,13 +1,12 @@
 package com.atguigu.gmall.pms.service.impl;
 
-import com.atguigu.gmall.pms.Vo.AttrVo;
 import com.atguigu.gmall.pms.dao.AttrAttrgroupRelationDao;
 import com.atguigu.gmall.pms.entity.AttrAttrgroupRelationEntity;
+import com.atguigu.gmall.pms.vo.AttrVO;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Map;
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -22,6 +21,7 @@ import com.atguigu.gmall.pms.service.AttrService;
 
 @Service("attrService")
 public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements AttrService {
+
     @Autowired
     private AttrAttrgroupRelationDao relationDao;
 
@@ -36,30 +36,36 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
     }
 
     @Override
-    public PageVo queryAttrByCidOrType(Integer cid, Long type, QueryCondition queryCondition) {
-        QueryWrapper<AttrEntity> queryWrapper = new QueryWrapper<>();
+    public PageVo queryAttrByCidOrTypePage(QueryCondition condition, Long cid, Integer type) {
+
+        QueryWrapper<AttrEntity> wrapper = new QueryWrapper<>();
+
+        // 判断type是否为null
         if (type != null) {
-            queryWrapper.eq("attr_type", type);
+            wrapper.eq("attr_type", type);
         }
-        queryWrapper.eq("catelog_id", cid);
+
+        wrapper.eq("catelog_id", cid);
 
         IPage<AttrEntity> page = this.page(
-                new Query<AttrEntity>().getPage(queryCondition), queryWrapper);
-
+                new Query<AttrEntity>().getPage(condition),
+                wrapper
+        );
 
         return new PageVo(page);
     }
 
     @Override
-    public void saveAttrVo(AttrVo attrVo) {
-        //新增规格参数
-        this.save(attrVo);
-        Long attrId = attrVo.getAttrId();
-        //新增中间表
-        AttrAttrgroupRelationEntity relation = new AttrAttrgroupRelationEntity();
-        relation.setAttrId(attrVo.getAttrId());
-        relation.setAttrGroupId(attrVo.getAttrGroupId());
-        this.relationDao.insert(relation);
+    public void saveAttrVO(AttrVO attrVO) {
+        // 新增attr
+        this.save(attrVO);
+        Long attrId = attrVO.getAttrId();
+
+        // 新增relation
+        AttrAttrgroupRelationEntity relationEntity = new AttrAttrgroupRelationEntity();
+        relationEntity.setAttrGroupId(attrVO.getAttrGroupId());
+        relationEntity.setAttrId(attrId);
+        this.relationDao.insert(relationEntity);
     }
 
 }

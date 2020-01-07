@@ -11,7 +11,6 @@ import com.atguigu.core.bean.Resp;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,9 +23,9 @@ import com.atguigu.gmall.pms.service.CategoryService;
 /**
  * 商品三级分类
  *
- * @author xpf
+ * @author lixianfeng
  * @email lxf@atguigu.com
- * @date 2019-12-31 13:40:39
+ * @date 2019-12-31 09:59:59
  */
 @Api(tags = "商品三级分类 管理")
 @RestController
@@ -34,17 +33,13 @@ import com.atguigu.gmall.pms.service.CategoryService;
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
-    /**
-     *
-     */
+
     @GetMapping
-    public Resp<List<CategoryEntity>> queryCategoriesBylevelOrPid(
-            @RequestParam(value = "level",defaultValue = "0")Integer level,
-            @RequestParam(value = "parentCid",required = false)Long pid){
-        List<CategoryEntity> data=this.categoryService.queryCategoriesBylevelOrPid(level,pid);
+    public Resp<List<CategoryEntity>> queryCategoriesByLevelOrPid(@RequestParam(value = "level", defaultValue = "0")Integer level
+            , @RequestParam(value = "parentCid", required = false)Long pid){
+        List<CategoryEntity> categoryEntities = this.categoryService.queryCategoriesByLevelOrPid(level, pid);
 
-        return Resp.ok(data);
-
+        return Resp.ok(categoryEntities);
     }
 
     /**

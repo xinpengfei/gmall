@@ -9,9 +9,9 @@ import com.atguigu.core.bean.QueryCondition;
 /**
  * 商品评价
  *
- * @author xpf
+ * @author lixianfeng
  * @email lxf@atguigu.com
- * @date 2019-12-31 13:40:39
+ * @date 2019-12-31 09:59:59
  */
 public interface SpuCommentService extends IService<SpuCommentEntity> {
 

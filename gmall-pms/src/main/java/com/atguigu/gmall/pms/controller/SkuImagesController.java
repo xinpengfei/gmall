@@ -22,9 +22,9 @@ import com.atguigu.gmall.pms.service.SkuImagesService;
 /**
  * sku图片
  *
- * @author xpf
+ * @author lixianfeng
  * @email lxf@atguigu.com
- * @date 2019-12-31 13:40:39
+ * @date 2019-12-31 09:59:59
  */
 @Api(tags = "sku图片 管理")
 @RestController

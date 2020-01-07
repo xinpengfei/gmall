@@ -1,11 +1,11 @@
 package com.atguigu.gmall.pms.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -20,6 +20,7 @@ import com.atguigu.gmall.pms.service.CategoryService;
 
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
+
     @Autowired
     private CategoryDao categoryDao;
 
@@ -34,18 +35,21 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     }
 
     @Override
-    public List<CategoryEntity> queryCategoriesBylevelOrPid(Integer level, Long pid) {
-        QueryWrapper<CategoryEntity> queryWrapper = new QueryWrapper<>();
-        //分层查询
-        if (level!=0){
-            queryWrapper.eq("cat_level",level);
+    public List<CategoryEntity> queryCategoriesByLevelOrPid(Integer level, Long pid) {
+
+        QueryWrapper<CategoryEntity> wrapper = new QueryWrapper<>();
+
+        // 分类层级查询
+        if (level != 0) {
+            wrapper.eq("cat_level", level);
         }
-        //根据父id
-        if (pid!=null){
-        queryWrapper.eq("parent_cid",pid);
+
+        // 父id查询
+        if (pid != null) {
+            wrapper.eq("parent_cid", pid);
         }
-        List<CategoryEntity> categoryEntities = this.categoryDao.selectList(queryWrapper);
-        return categoryEntities;
+
+        return this.categoryDao.selectList(wrapper);
     }
 
 }

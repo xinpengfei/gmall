@@ -2,7 +2,6 @@ package com.atguigu.gmall.pms.service.impl;
 
 import org.springframework.stereotype.Service;
 
-import java.beans.Transient;
 import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -33,12 +32,9 @@ public class AttrAttrgroupRelationServiceImpl extends ServiceImpl<AttrAttrgroupR
 
     @Override
     @Transactional
-    public void delete(List<AttrAttrgroupRelationEntity> relationEntities) {
+    public void deleteAttr(List<AttrAttrgroupRelationEntity> relationEntities) {
         relationEntities.forEach(relationEntity -> {
-            this.remove(new QueryWrapper<AttrAttrgroupRelationEntity>()
-                    .eq("attr_id", relationEntity.getAttrId())
-                    .eq("attr_group_id", relationEntity.getAttrGroupId())
-            );
+            this.remove(new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", relationEntity.getAttrId()).eq("attr_group_id", relationEntity.getAttrGroupId()));
         });
     }
 
