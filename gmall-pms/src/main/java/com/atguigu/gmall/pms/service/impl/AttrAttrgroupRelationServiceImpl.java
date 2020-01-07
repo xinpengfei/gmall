@@ -1,6 +1,9 @@
 package com.atguigu.gmall.pms.service.impl;
 
 import org.springframework.stereotype.Service;
+
+import java.beans.Transient;
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -12,6 +15,7 @@ import com.atguigu.core.bean.QueryCondition;
 import com.atguigu.gmall.pms.dao.AttrAttrgroupRelationDao;
 import com.atguigu.gmall.pms.entity.AttrAttrgroupRelationEntity;
 import com.atguigu.gmall.pms.service.AttrAttrgroupRelationService;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("attrAttrgroupRelationService")
@@ -25,6 +29,17 @@ public class AttrAttrgroupRelationServiceImpl extends ServiceImpl<AttrAttrgroupR
         );
 
         return new PageVo(page);
+    }
+
+    @Override
+    @Transactional
+    public void delete(List<AttrAttrgroupRelationEntity> relationEntities) {
+        relationEntities.forEach(relationEntity -> {
+            this.remove(new QueryWrapper<AttrAttrgroupRelationEntity>()
+                    .eq("attr_id", relationEntity.getAttrId())
+                    .eq("attr_group_id", relationEntity.getAttrGroupId())
+            );
+        });
     }
 
 }
